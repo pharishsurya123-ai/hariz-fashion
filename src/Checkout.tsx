@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from './supabase';
 import { ShippingDetails, CartItem } from '../types';
 import { ChevronLeft, CreditCard, ShieldCheck, CheckCircle, Package, Calendar, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -73,20 +74,50 @@ export default function Checkout({ cartItems, onBackToCart, onClearCart, userEma
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
+ const handlePlaceOrder = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    setIsSubmitting(true);
-    // Simulate API request
-    setTimeout(() => {
-      const generatedOrderId = 'HZ-' + Math.floor(100000 + Math.random() * 900000);
-      setOrderId(generatedOrderId);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      onClearCart();
-    }, 1500);
-  };
+  if (!validate()) return;
+
+  setIsSubmitting(true);
+
+  const generatedOrderId =
+    'HZ-' + Math.floor(100000 + Math.random() * 900000);
+
+  const fullAddress = `${details.address}, ${details.city}, ${details.state} - ${details.pinCode}`;
+
+  const orderItems = cartItems.map((item) => ({
+    product_id: item.product.id,
+    product_name: item.product.name,
+    size: item.selectedSize,
+    quantity: item.quantity,
+    price: item.product.price,
+  }));
+
+  const { error } = await supabase.from('orders').insert([
+    {
+      customer_name: details.name,
+      customer_email: details.email,
+      customer_phone: details.phone,
+      address: fullAddress,
+      total_amount: total,
+      status: 'pending',
+      items: orderItems,
+    },
+  ]);
+
+  if (error) {
+    console.error('Order error:', error);
+    alert('Order failed. Please try again.');
+    setIsSubmitting(false);
+    return;
+  }
+
+  setOrderId(generatedOrderId);
+  setIsSubmitting(false);
+  setIsSubmitted(true);
+  onClearCart();
+};
 
   if (isSubmitted) {
     const deliveryDate = new Date();
