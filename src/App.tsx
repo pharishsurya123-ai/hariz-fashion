@@ -3,15 +3,15 @@ import { ActiveView, CartItem, Product } from './types';
 import { MOCK_PRODUCTS } from './data';
 
 // Component Imports
-import Header from './components/Header';
-import Hero from './components/Hero';
-import ProductCard from './components/ProductCard';
-import ProductDetails from './components/ProductDetails';
-import ProductListing from './components/ProductListing';
-import CartDrawer from './components/CartDrawer';
-import Checkout from './components/Checkout';
-import AccountModal from './components/AccountModal';
-import Footer from './components/Footer';
+import Header from './Header';
+import Hero from './Hero';
+import ProductCard from './ProductCard';
+import ProductDetails from './ProductDetails';
+import ProductListing from './ProductListing';
+import CartDrawer from './CartDrawer';
+import Checkout from './Checkout';
+import AccountModal from './AccountModal';
+import Footer from './Footer';
 
 // Info Pages Imports
 import {
@@ -20,7 +20,7 @@ import {
   FAQPage,
   ShippingPolicyPage,
   PrivacyPolicyPage,
-} from './components/InfoPages';
+} from './InfoPages';
 
 export default function App() {
   // Global View Routing
