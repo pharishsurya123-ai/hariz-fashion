@@ -1,0 +1,6 @@
+{
+  "name": "Hariz Fashion",
+  "description": "A premium, minimalist black and white fashion e-commerce website with a clean, responsive layout and full shopping experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
